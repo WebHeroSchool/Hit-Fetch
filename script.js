@@ -54,3 +54,20 @@ console.log(checkUsername(url));
 
 
 
+const getDate = new Promise((resolve, reject) => {
+	setTimeout(() => new Date(), 3000)
+})
+
+Promise.all(getDate)
+.then(() => {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+       //* добавление ведущих нулей */
+    if (hours < 10) hours = "0" + hours;
+    if (minutes < 10) minutes = "0" + minutes;
+    if (seconds < 10) seconds = "0" + seconds;
+    let time = hours + ":" + minutes + ":" + seconds;
+    return console.log(time);
+        })
+.then(name => console.log(name))
