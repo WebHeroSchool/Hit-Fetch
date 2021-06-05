@@ -8,9 +8,9 @@ function checkUsername(url) {
 	if (name == undefined) {
 		name = 'YuliyaHit';
 	}
- 	else {
+
  		return name;
- 	}
+ 
  }
 
 console.log(checkUsername(url));
@@ -53,4 +53,7 @@ console.log(checkUsername(url));
 
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
