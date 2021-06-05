@@ -36,7 +36,7 @@ console.log(checkUsername(url));
 
         body.append(name);
 
-        name.addEventListener("click", () => location.assign(`https://api.github.com/users/${checkUsername(url)}`)); // именz профиля становиться ссылкой его страницу
+        name.addEventListener("click", () => location.assign(`https://github.com/${checkUsername(url)}`)); // именz профиля становиться ссылкой его страницу
 
         let bio = document.createElement('p');  //аналогично с именем
         if (json.bio != null) {
