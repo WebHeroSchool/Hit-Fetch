@@ -49,11 +49,3 @@ console.log(checkUsername(url));
     })
 
     .catch(err => alert('Информация о пользователе недоступна'));
-
-
-
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
