@@ -1,5 +1,11 @@
 let body = document.body;  // без этой строчки ничего почему-то не работает
 
+let preloaderEl = document.getElementById('preloader');
+
+setTimeout(function() {
+	preloaderEl.classList.add('hidden');
+}, 3000);
+
 let url = window.location.toString();
 
 function checkUsername(url) {
@@ -20,8 +26,8 @@ const getTime = new Promise((resolve, reject) => {
 
 const getInformation = fetch(`https://api.github.com/users/${checkUsername(url)}`);
 
-Promise.all(getInformation, getTime) 
-	.then(res => res.json()) // декодирует ответ в формате JSON
+Promise.all([getInformation, getTime]) 
+	.then(([res, time]) => res.json()) // декодирует ответ в формате JSON
     .then(json => {
         console.log(json.avatar_url);
         console.log(json.name);
