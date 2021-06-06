@@ -68,8 +68,3 @@ Promise.all(getInformation, getTime)
 
     .catch(err => alert('Информация о пользователе недоступна'));
 
-
-
-
-
-
