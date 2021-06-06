@@ -8,14 +8,19 @@ function checkUsername(url) {
 	if (name == undefined) {
 		name = 'YuliyaHit';
 	}
- 	else {
  		return name;
- 	}
  }
 
 console.log(checkUsername(url));
 
- fetch(`https://api.github.com/users/${checkUsername(url)}`)
+ 
+const getTime = new Promise((resolve, reject) => {
+	setTimeout(() => resolve(new Date()), 3000)
+})
+
+const getInformation = fetch(`https://api.github.com/users/${checkUsername(url)}`);
+
+Promise.all(getInformation, getTime) 
 	.then(res => res.json()) // декодирует ответ в формате JSON
     .then(json => {
         console.log(json.avatar_url);
@@ -31,7 +36,7 @@ console.log(checkUsername(url));
         if (json.name != null) {       // если имя не нул, то выводим имя, иначе инфа недоступна 
             name.innerHTML = json.name;
         } else {
-            name.innerHTML = 'Информация об имепользователе недоступна';
+            name.innerHTML = 'Информация об име пользователе недоступна';
         }
 
         body.append(name);
@@ -48,18 +53,8 @@ console.log(checkUsername(url));
 
     })
 
-    .catch(err => alert('Информация о пользователе недоступна'));
-
-
-
-
-
-const getDate = new Promise((resolve, reject) => {
-	setTimeout(() => new Date(), 3000)
-})
-
-Promise.all(getDate)
-.then(() => {
+    .then(() => {
+   
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
@@ -70,4 +65,11 @@ Promise.all(getDate)
     let time = hours + ":" + minutes + ":" + seconds;
     return console.log(time);
         })
-.then(name => console.log(name))
+
+    .catch(err => alert('Информация о пользователе недоступна'));
+
+
+
+
+
+
