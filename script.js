@@ -2,10 +2,6 @@ let body = document.body;  // без этой строчки ничего поч
 
 let preloaderEl = document.getElementById('preloader');
 
-setTimeout(function() {
-	preloaderEl.classList.add('hidden');
-}, 3000);
-
 let url = window.location.toString();
 
 function checkUsername(url) {
@@ -27,8 +23,22 @@ const getTime = new Promise((resolve, reject) => {
 const getInformation = fetch(`https://api.github.com/users/${checkUsername(url)}`);
 
 Promise.all([getInformation, getTime]) 
-	.then(([res, time]) => res.json()) // декодирует ответ в формате JSON
+	.then(([res, date]) => {
+   
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+       //* добавление ведущих нулей */
+    if (hours < 10) hours = "0" + hours;
+    if (minutes < 10) minutes = "0" + minutes;
+    if (seconds < 10) seconds = "0" + seconds;
+    let time = hours + ":" + minutes + ":" + seconds;
+    console.log(time);
+
+	 return res.json()
+	}) // декодирует ответ в формате JSON
     .then(json => {
+    	preloaderEl.classList.add('hidden');
         console.log(json.avatar_url);
         console.log(json.name);
         console.log(json.bio);
@@ -58,19 +68,6 @@ Promise.all([getInformation, getTime])
         body.append(bio);
 
     })
-
-    .then(() => {
-   
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-       //* добавление ведущих нулей */
-    if (hours < 10) hours = "0" + hours;
-    if (minutes < 10) minutes = "0" + minutes;
-    if (seconds < 10) seconds = "0" + seconds;
-    let time = hours + ":" + minutes + ":" + seconds;
-    return console.log(time);
-        })
 
     .catch(err => alert('Информация о пользователе недоступна'));
 
