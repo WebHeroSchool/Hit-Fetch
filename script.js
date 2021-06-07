@@ -1,5 +1,7 @@
 let body = document.body;  // без этой строчки ничего почему-то не работает
 
+let preloaderEl = document.getElementById('preloader');
+
 let url = window.location.toString();
 
 function checkUsername(url) {
@@ -8,16 +10,35 @@ function checkUsername(url) {
 	if (name == undefined) {
 		name = 'YuliyaHit';
 	}
-
  		return name;
- 
  }
 
 console.log(checkUsername(url));
 
- fetch(`https://api.github.com/users/${checkUsername(url)}`)
-	.then(res => res.json()) // декодирует ответ в формате JSON
+ 
+const getTime = new Promise((resolve, reject) => {
+	setTimeout(() => resolve(new Date()), 3000)
+})
+
+const getInformation = fetch(`https://api.github.com/users/${checkUsername(url)}`);
+
+Promise.all([getInformation, getTime]) 
+	.then(([res, date]) => {
+   
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+       //* добавление ведущих нулей */
+    if (hours < 10) hours = "0" + hours;
+    if (minutes < 10) minutes = "0" + minutes;
+    if (seconds < 10) seconds = "0" + seconds;
+    let time = hours + ":" + minutes + ":" + seconds;
+    console.log(time);
+
+	 return res.json()
+	}) // декодирует ответ в формате JSON
     .then(json => {
+    	preloaderEl.classList.add('hidden');
         console.log(json.avatar_url);
         console.log(json.name);
         console.log(json.bio);
@@ -31,7 +52,7 @@ console.log(checkUsername(url));
         if (json.name != null) {       // если имя не нул, то выводим имя, иначе инфа недоступна 
             name.innerHTML = json.name;
         } else {
-            name.innerHTML = 'Информация об имепользователе недоступна';
+            name.innerHTML = 'Информация об име пользователе недоступна';
         }
 
         body.append(name);
@@ -49,3 +70,4 @@ console.log(checkUsername(url));
     })
 
     .catch(err => alert('Информация о пользователе недоступна'));
+
